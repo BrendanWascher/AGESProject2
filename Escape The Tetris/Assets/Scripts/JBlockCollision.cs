@@ -8,19 +8,42 @@ public class JBlockCollision : MonoBehaviour
     private TetrisMovement jBlock;
 
     [SerializeField]
-    private Transform defaultLeft;
+    private Transform defaultLeftLeft;
 
     [SerializeField]
-    private Transform defaultRight;
+    private Transform defaultLeftDown;
 
     [SerializeField]
-    private Transform defaultMiddle;
+    private Transform defaultRightRight;
 
     [SerializeField]
-    private Transform defaultUp;
+    private Transform defaultRightUp;
 
     [SerializeField]
-    private float oneBlockDistance;
+    private Transform defaultRightDown;
+
+    [SerializeField]
+    private Transform defaultMiddleUp;
+
+    [SerializeField]
+    private Transform defaultMiddleDown;
+
+    [SerializeField]
+    private Transform defaultUpUp;
+
+    [SerializeField]
+    private Transform defaultUpLeft;
+
+    [SerializeField]
+    private Transform defaultUpRight;
+
+    [SerializeField]
+    private float oneBlockDistance = .1f;
+
+    RaycastHit2D hit;
+    RaycastHit2D hit2;
+    RaycastHit2D hit3;
+    RaycastHit2D hit4;
 
     // Update is called once per frame
     void Update()
@@ -41,17 +64,77 @@ public class JBlockCollision : MonoBehaviour
     private void DefaultRaycast()
     {
         // check for side collision to be able to move left
-        Debug.DrawRay(defaultLeft.position, Vector2.left);
-        Debug.DrawRay(defaultUp.position, Vector2.left);
+        Debug.DrawRay(defaultLeftLeft.position, Vector2.left);
+        Debug.DrawRay(defaultUpLeft.position, Vector2.left);
+
+        if (hit = Physics2D.Raycast(defaultLeftLeft.position, Vector2.left, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.canMoveLeft = false;
+            }
+        }
+        else if (hit = Physics2D.Raycast(defaultUpLeft.position, Vector2.left, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.canMoveLeft = false;
+            }
+        }
+        else
+        {
+            jBlock.canMoveLeft = true;
+        }
 
         // check for side collision to be able to move right
-        Debug.DrawRay(defaultRight.position, Vector2.right);
-        Debug.DrawRay(defaultUp.position, Vector2.right);
+        Debug.DrawRay(defaultRightRight.position, Vector2.right);
+        Debug.DrawRay(defaultUpRight.position, Vector2.right);
+
+        if (hit = Physics2D.Raycast(defaultRightRight.position, Vector2.right, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.canMoveRight = false;
+            }
+        }
+        else if (hit = Physics2D.Raycast(defaultUpRight.position, Vector2.right, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.canMoveRight = false;
+            }
+        }
+        else
+        {
+            jBlock.canMoveRight = true;
+        }
 
         // check for bottom collison to stop moving
-        Debug.DrawRay(defaultLeft.position, Vector2.down);
-        Debug.DrawRay(defaultRight.position, Vector2.down);
-        Debug.DrawRay(defaultMiddle.position, Vector2.down);
+        Debug.DrawRay(defaultLeftDown.position, Vector2.down);
+        Debug.DrawRay(defaultRightDown.position, Vector2.down);
+        Debug.DrawRay(defaultMiddleDown.position, Vector2.down);
+
+        if (hit = Physics2D.Raycast(defaultLeftDown.position, Vector2.down, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.Deactivate();
+            }
+        }
+        else if (hit = Physics2D.Raycast(defaultRightDown.position, Vector2.down, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.Deactivate();
+            }
+        }
+        else if (hit = Physics2D.Raycast(defaultMiddleDown.position, Vector2.down, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.Deactivate();
+            }
+        }
 
         // check distance to bottom to see if you can rotate
         // check two blocks away from the bottom 
@@ -61,18 +144,85 @@ public class JBlockCollision : MonoBehaviour
     private void OneFlipRaycast()
     {
         //check for side collision to be able to move left
-        Debug.DrawRay(defaultLeft.position, Vector2.left);
-        Debug.DrawRay(defaultRight.position, Vector2.left);
-        Debug.DrawRay(defaultMiddle.position, Vector2.left);
+        Debug.DrawRay(defaultLeftDown.position, Vector2.left);
+        Debug.DrawRay(defaultRightDown.position, Vector2.left);
+        Debug.DrawRay(defaultMiddleDown.position, Vector2.left);
+
+        if (hit = Physics2D.Raycast(defaultLeftDown.position, Vector2.left, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.canMoveLeft = false;
+            }
+        }
+        else if (hit = Physics2D.Raycast(defaultRightDown.position, Vector2.left, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.canMoveLeft = false;
+            }
+        }
+        else if (hit = Physics2D.Raycast(defaultMiddleDown.position, Vector2.left, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.canMoveLeft = false;
+            }
+        }
+        else
+        {
+            jBlock.canMoveLeft = true;
+        }
 
         // check for side collision to be able to move right
-        Debug.DrawRay(defaultUp.position, Vector2.right);
-        Debug.DrawRay(defaultRight.position, Vector2.right);
-        Debug.DrawRay(defaultMiddle.position, Vector2.right);
+        Debug.DrawRay(defaultUpUp.position, Vector2.right);
+        Debug.DrawRay(defaultRightUp.position, Vector2.right);
+        Debug.DrawRay(defaultMiddleUp.position, Vector2.right);
+
+        if (hit = Physics2D.Raycast(defaultUpUp.position, Vector2.right, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.canMoveRight = false;
+            }
+        }
+        else if (hit = Physics2D.Raycast(defaultRightUp.position, Vector2.right, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.canMoveRight = false;
+            }
+        }
+        else if (hit = Physics2D.Raycast(defaultMiddleUp.position, Vector2.right, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.canMoveRight = false;
+            }
+        }
+        else
+        {
+            jBlock.canMoveRight = true;
+        }
 
         // check for bottom collision to stop moving
-        Debug.DrawRay(defaultRight.position, Vector2.down);
-        Debug.DrawRay(defaultUp.position, Vector2.down);
+        Debug.DrawRay(defaultRightRight.position, Vector2.down);
+        Debug.DrawRay(defaultUpRight.position, Vector2.down);
+
+        if (hit = Physics2D.Raycast(defaultRightRight.position, Vector2.down, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.Deactivate();
+            }
+        }
+        else if (hit = Physics2D.Raycast(defaultUpRight.position, Vector2.down, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.Deactivate();
+            }
+        }
 
         // check distance on sides to see if you can rotate
         // check two blocks away from the left
@@ -83,17 +233,77 @@ public class JBlockCollision : MonoBehaviour
     private void TwoFlipRaycast()
     {
         //check for side collision to be able to move left
-        Debug.DrawRay(defaultRight.position, Vector2.left);
-        Debug.DrawRay(defaultUp.position, Vector2.left);
+        Debug.DrawRay(defaultRightRight.position, Vector2.left);
+        Debug.DrawRay(defaultUpRight.position, Vector2.left);
+
+        if (hit = Physics2D.Raycast(defaultRightRight.position, Vector2.left, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.canMoveLeft = false;
+            }
+        }
+        else if (hit = Physics2D.Raycast(defaultUpRight.position, Vector2.left, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.canMoveLeft = false;
+            }
+        }
+        else
+        {
+            jBlock.canMoveLeft = true;
+        }
 
         //check for side collision to be able to move right
-        Debug.DrawRay(defaultLeft.position, Vector2.right);
-        Debug.DrawRay(defaultUp.position, Vector2.right);
+        Debug.DrawRay(defaultLeftLeft.position, Vector2.right);
+        Debug.DrawRay(defaultUpLeft.position, Vector2.right);
+
+        if (hit = Physics2D.Raycast(defaultLeftLeft.position, Vector2.right, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.canMoveRight = false;
+            }
+        }
+        else if (hit = Physics2D.Raycast(defaultUpLeft.position, Vector2.right, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.canMoveRight = false;
+            }
+        }
+        else
+        {
+            jBlock.canMoveRight = true;
+        }
 
         // check for bottom collision to stop moving
-        Debug.DrawRay(defaultUp.position, Vector2.down);
-        Debug.DrawRay(defaultRight.position, Vector2.down);
-        Debug.DrawRay(defaultMiddle.position, Vector2.down); 
+        Debug.DrawRay(defaultUpUp.position, Vector2.down);
+        Debug.DrawRay(defaultRightUp.position, Vector2.down);
+        Debug.DrawRay(defaultMiddleUp.position, Vector2.down);
+
+        if (hit = Physics2D.Raycast(defaultUpUp.position, Vector2.down, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.Deactivate();
+            }
+        }
+        else if (hit = Physics2D.Raycast(defaultRightUp.position, Vector2.down, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.Deactivate();
+            }
+        }
+        else if (hit = Physics2D.Raycast(defaultMiddleUp.position, Vector2.down, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.Deactivate();
+            }
+        }
 
         //check distance to bottom to see if you can rotate
         // check two blocks away from the bottom
@@ -103,18 +313,85 @@ public class JBlockCollision : MonoBehaviour
     private void ThreeFlipRaycast()
     {
         //check for side collision to be able to move left
-        Debug.DrawRay(defaultUp.position, Vector2.left);
-        Debug.DrawRay(defaultRight.position, Vector2.left);
-        Debug.DrawRay(defaultMiddle.position, Vector2.left);
+        Debug.DrawRay(defaultUpUp.position, Vector2.left);
+        Debug.DrawRay(defaultRightUp.position, Vector2.left);
+        Debug.DrawRay(defaultMiddleUp.position, Vector2.left);
+
+        if (hit = Physics2D.Raycast(defaultUpUp.position, Vector2.left, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.canMoveLeft = false;
+            }
+        }
+        else if (hit = Physics2D.Raycast(defaultRightUp.position, Vector2.left, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.canMoveLeft = false;
+            }
+        }
+        else if (hit = Physics2D.Raycast(defaultMiddleUp.position, Vector2.left, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.canMoveLeft = false;
+            }
+        }
+        else
+        {
+            jBlock.canMoveLeft = true;
+        }
 
         // check for side collision to be able to move right
-        Debug.DrawRay(defaultLeft.position, Vector2.right);
-        Debug.DrawRay(defaultRight.position, Vector2.right);
-        Debug.DrawRay(defaultMiddle.position, Vector2.right);
+        Debug.DrawRay(defaultLeftDown.position, Vector2.right);
+        Debug.DrawRay(defaultRightDown.position, Vector2.right);
+        Debug.DrawRay(defaultMiddleDown.position, Vector2.right);
+
+        if (hit = Physics2D.Raycast(defaultLeftDown.position, Vector2.right, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.canMoveRight = false;
+            }
+        }
+        else if (hit = Physics2D.Raycast(defaultRightDown.position, Vector2.right, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.canMoveRight = false;
+            }
+        }
+        else if (hit = Physics2D.Raycast(defaultMiddleDown.position, Vector2.right, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.canMoveRight = false;
+            }
+        }
+        else
+        {
+            jBlock.canMoveRight = true;
+        }
 
         // check for bottom collision to stop moving
-        Debug.DrawRay(defaultLeft.position, Vector2.down);
-        Debug.DrawRay(defaultUp.position, Vector2.down); 
+        Debug.DrawRay(defaultLeftLeft.position, Vector2.down);
+        Debug.DrawRay(defaultUpLeft.position, Vector2.down);
+
+        if (hit = Physics2D.Raycast(defaultLeftLeft.position, Vector2.down, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.Deactivate();
+            }
+        }
+        else if (hit = Physics2D.Raycast(defaultUpLeft.position, Vector2.down, oneBlockDistance))
+        {
+            if (hit.transform.tag == "TetrisBlock")
+            {
+                jBlock.Deactivate();
+            }
+        }
 
         // check distance on sides to see if you can rotate
         // check two blocks away from the left

@@ -43,7 +43,7 @@ public class TetrisBlockSpawner : MonoBehaviour
     {
         if(shouldMakeNew)
         {
-            clone = Instantiate(iBlockPrefab, blockSpawnPoint.position, blockSpawnPoint.rotation);
+            clone = Instantiate(zBlockPrefab, blockSpawnPoint.position, blockSpawnPoint.rotation);
             activeBlock = clone.GetComponentInChildren<TetrisMovement>();
             shouldMakeNew = false;
         }

@@ -13,8 +13,10 @@ public class TetrisMovement : MonoBehaviour
     [SerializeField]
     private Rigidbody2D rigidbody2D;
 
+    /*
     [SerializeField]
     private AttachedPiece attachedPiece;
+    */
 
     [SerializeField]
     private GameObject gameObject;
@@ -28,7 +30,7 @@ public class TetrisMovement : MonoBehaviour
     private bool horizontalButtonPushed = false;
     private bool verticalButtonPushed = false;
     private bool isHitByPlayer = false;
-    private bool isConnected = false;
+    //private bool isConnected = false;
 
     private Vector3 rotation;
     private Vector3 true0 = new Vector3(0f,0f,0f);
@@ -38,10 +40,12 @@ public class TetrisMovement : MonoBehaviour
 
 	void Start ()
     {
+        /*
         if(attachedPiece != null)
         {
             isConnected = true;
         }
+        */
         InvokeRepeating("BlockFall", delayTime, movementTime);
 	}
 	
@@ -52,10 +56,12 @@ public class TetrisMovement : MonoBehaviour
             CheckInput();
             //CheckAngles();
             CheckReset();
+            /*
             if(isConnected)
             {
                 CheckAttached();
             }
+            */
         }
 	}
 

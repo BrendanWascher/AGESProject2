@@ -20,6 +20,10 @@ public class TetrisMovement : MonoBehaviour
     private GameObject gameObject;
 
     public bool isActive = true;
+    public bool canFlip = true;
+    public bool canMoveLeft = true;
+    public bool canMoveRight = true;
+    public int flipCount = 0;
 
     private bool horizontalButtonPushed = false;
     private bool verticalButtonPushed = false;
@@ -46,7 +50,7 @@ public class TetrisMovement : MonoBehaviour
         if (isActive)
         {
             CheckInput();
-            CheckAngles();
+            //CheckAngles();
             CheckReset();
             if(isConnected)
             {
@@ -77,7 +81,13 @@ public class TetrisMovement : MonoBehaviour
 
         if(Input.GetButtonDown("TetrisRotate"))
         {
-            RotateBlock();
+            if (canFlip)
+            {
+                RotateBlock();
+                flipCount++;
+                if (flipCount == 4)
+                    flipCount = 0;
+            }
         }
     }
 
@@ -86,6 +96,7 @@ public class TetrisMovement : MonoBehaviour
 
     }
 
+    /*
     private void CheckAngles()
     {
         if (isHitByPlayer)
@@ -117,15 +128,16 @@ public class TetrisMovement : MonoBehaviour
             rigidbody2D.transform.eulerAngles = rotation;
         }
     }
+    */
 
     private void CheckAttached()
     {
+        /*
         if(attachedPiece.isHitByGround == true)
         {
-            CancelInvoke("BlockFall");
-            rigidbody2D.bodyType = RigidbodyType2D.Static;
-            isActive = false;
+            Deactivate();
         }
+        */
     }
 
     private void BlockFall()
@@ -138,13 +150,13 @@ public class TetrisMovement : MonoBehaviour
     {
         if (!horizontalButtonPushed)
         {
-            if (Input.GetAxis("TetrisHorizontal") > 0)
+            if (Input.GetAxis("TetrisHorizontal") > 0 && canMoveRight)
             {
                 gameObject.transform.Translate(.5f, 0f, 0f, Space.World);
                 //rigidbody2D.
                 //rigidbody2D.MovePosition(rigidbody2D.position + new Vector2(0.5f, 0f));
             }
-            else if (Input.GetAxis("TetrisHorizontal")<0)
+            else if (Input.GetAxis("TetrisHorizontal")<0 && canMoveLeft)
             {
                 gameObject.transform.Translate(-.5f, 0f, 0f, Space.World);
                 //rigidbody2D.MovePosition(rigidbody2D.position + new Vector2(-0.5f, 0f));
@@ -176,18 +188,20 @@ public class TetrisMovement : MonoBehaviour
         gameObject.transform.Rotate(0f, 0f, -90f, Space.World);
     }
 
+    public void Deactivate()
+    {
+        isActive = false;
+        CancelInvoke("BlockFall");
+        rigidbody2D.bodyType = RigidbodyType2D.Static;
+
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //Debug.Log("Object Hit");
         if (isActive)
         {
-            if (collision.gameObject.tag == "TetrisBlock")
-            {
-                CancelInvoke("BlockFall");
-                rigidbody2D.bodyType = RigidbodyType2D.Static;
-                isActive = false;
-            }
-            else if (collision.gameObject.tag == "Player")
+            if (collision.gameObject.tag == "Player")
             {
                 rotation = rigidbody2D.transform.eulerAngles;
                 rigidbody2D.freezeRotation = true;

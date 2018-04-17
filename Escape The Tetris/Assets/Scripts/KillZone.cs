@@ -17,10 +17,5 @@ public class KillZone : MonoBehaviour
         {
             SceneManager.LoadScene(thisScene);
         }
-        else
-        {
-            Destroy(collision.gameObject);
-            thisSpawner.shouldMakeNew = true;
-        }
     }
 }

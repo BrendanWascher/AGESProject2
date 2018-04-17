@@ -204,7 +204,7 @@ public class TetrisMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //Debug.Log("Object Hit");
+        Debug.Log("Object Hit");
         if (isActive)
         {
             if (collision.gameObject.tag == "Player")

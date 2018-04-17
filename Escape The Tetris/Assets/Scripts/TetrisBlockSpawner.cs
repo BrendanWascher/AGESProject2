@@ -34,6 +34,8 @@ public class TetrisBlockSpawner : MonoBehaviour
     private GameObject clone;
     private TetrisMovement activeBlock;
 
+    private int randomNumber;
+
     void FixedUpdate ()
     {
         CheckInstance();
@@ -43,8 +45,8 @@ public class TetrisBlockSpawner : MonoBehaviour
     {
         if(shouldMakeNew)
         {
-            clone = Instantiate(zBlockPrefab, blockSpawnPoint.position, blockSpawnPoint.rotation);
-            activeBlock = clone.GetComponentInChildren<TetrisMovement>();
+            randomNumber = Random.Range(0, 6);
+            MakeBlock(randomNumber);
             shouldMakeNew = false;
         }
 
@@ -54,5 +56,45 @@ public class TetrisBlockSpawner : MonoBehaviour
             activeBlock = null;
             shouldMakeNew = true;
         }
+    }
+
+    private void MakeBlock(int choice)
+    {
+        switch(choice)
+        {
+            case 0:
+                clone = Instantiate(iBlockPrefab, blockSpawnPoint.position, blockSpawnPoint.rotation);
+                break;
+
+            case 1:
+                clone = Instantiate(jBlockPrefab, blockSpawnPoint.position, blockSpawnPoint.rotation);
+                break;
+
+            case 2:
+                clone = Instantiate(lBlockPrefab, blockSpawnPoint.position, blockSpawnPoint.rotation);
+                break;
+
+            case 3:
+                clone = Instantiate(oBlockPrefab, blockSpawnPoint.position, blockSpawnPoint.rotation);
+                break;
+
+            case 4:
+                clone = Instantiate(sBlockPrefab, blockSpawnPoint.position, blockSpawnPoint.rotation);
+                break;
+
+            case 5:
+                clone = Instantiate(tBlockPrefab, blockSpawnPoint.position, blockSpawnPoint.rotation);
+                break;
+
+            case 6:
+                clone = Instantiate(zBlockPrefab, blockSpawnPoint.position, blockSpawnPoint.rotation);
+                break;
+
+            default:
+                Debug.Log("error in switch");
+                break;
+        }
+
+        activeBlock = clone.GetComponentInChildren<TetrisMovement>();
     }
 }

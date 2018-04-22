@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Ground
   - TetrisBlock
-  - Attached
+  - KillBox
   layers:
   - Default
   - TransparentFX
@@ -18,7 +18,7 @@ TagManager:
   - 
   - Ground
   - TetrisBlock
-  - 
+  - Camera
   - 
   - 
   - 

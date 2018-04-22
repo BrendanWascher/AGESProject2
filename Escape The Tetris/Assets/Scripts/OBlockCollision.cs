@@ -35,9 +35,6 @@ public class OBlockCollision : MonoBehaviour
     private float oneBlockDistance = .1f;
 
     RaycastHit2D hit;
-    RaycastHit2D hit2;
-    RaycastHit2D hit3;
-    RaycastHit2D hit4;
 
     // Update is called once per frame
     void Update()
@@ -67,12 +64,20 @@ public class OBlockCollision : MonoBehaviour
             {
                 oBlock.canMoveLeft = false;
             }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
+            }
         }
         else if (hit = Physics2D.Raycast(defaultDownLeftLeft.position, Vector2.left, oneBlockDistance))
         {
             if (hit.transform.tag == "TetrisBlock")
             {
                 oBlock.canMoveLeft = false;
+            }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
             }
         }
         else
@@ -90,12 +95,20 @@ public class OBlockCollision : MonoBehaviour
             {
                 oBlock.canMoveRight = false;
             }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
+            }
         }
         else if (hit = Physics2D.Raycast(defaultDownRightRight.position, Vector2.right, oneBlockDistance))
         {
             if (hit.transform.tag == "TetrisBlock")
             {
                 oBlock.canMoveRight = false;
+            }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
             }
         }
         else
@@ -113,12 +126,20 @@ public class OBlockCollision : MonoBehaviour
             {
                 oBlock.Deactivate();
             }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
+            }
         }
         else if (hit = Physics2D.Raycast(defaultDownRightDown.position, Vector2.down, oneBlockDistance))
         {
             if (hit.transform.tag == "TetrisBlock")
             {
                 oBlock.Deactivate();
+            }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
             }
         }
     }
@@ -135,12 +156,20 @@ public class OBlockCollision : MonoBehaviour
             {
                 oBlock.canMoveLeft = false;
             }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
+            }
         }
         else if (hit = Physics2D.Raycast(defaultDownRightDown.position, Vector2.left, oneBlockDistance))
         {
             if (hit.transform.tag == "TetrisBlock")
             {
                 oBlock.canMoveLeft = false;
+            }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
             }
         }
         else
@@ -158,12 +187,20 @@ public class OBlockCollision : MonoBehaviour
             {
                 oBlock.canMoveRight = false;
             }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
+            }
         }
         else if (hit = Physics2D.Raycast(defaultUpRightUp.position, Vector2.right, oneBlockDistance))
         {
             if (hit.transform.tag == "TetrisBlock")
             {
                 oBlock.canMoveRight = false;
+            }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
             }
         }
         else
@@ -181,12 +218,20 @@ public class OBlockCollision : MonoBehaviour
             {
                 oBlock.Deactivate();
             }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
+            }
         }
         else if (hit = Physics2D.Raycast(defaultDownRightRight.position, Vector2.down, oneBlockDistance))
         {
             if (hit.transform.tag == "TetrisBlock")
             {
                 oBlock.Deactivate();
+            }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
             }
         }
     }
@@ -203,12 +248,20 @@ public class OBlockCollision : MonoBehaviour
             {
                 oBlock.canMoveLeft = false;
             }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
+            }
         }
         else if (hit = Physics2D.Raycast(defaultDownRightRight.position, Vector2.left, oneBlockDistance))
         {
             if (hit.transform.tag == "TetrisBlock")
             {
                 oBlock.canMoveLeft = false;
+            }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
             }
         }
         else
@@ -226,12 +279,20 @@ public class OBlockCollision : MonoBehaviour
             {
                 oBlock.canMoveRight = false;
             }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
+            }
         }
         else if (hit = Physics2D.Raycast(defaultDownLeftLeft.position, Vector2.right, oneBlockDistance))
         {
             if (hit.transform.tag == "TetrisBlock")
             {
                 oBlock.canMoveRight = false;
+            }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
             }
         }
         else
@@ -249,12 +310,20 @@ public class OBlockCollision : MonoBehaviour
             {
                 oBlock.Deactivate();
             }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
+            }
         }
         else if (hit = Physics2D.Raycast(defaultUpRightUp.position, Vector2.down, oneBlockDistance))
         {
             if (hit.transform.tag == "TetrisBlock")
             {
                 oBlock.Deactivate();
+            }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
             }
         }
     }
@@ -271,12 +340,20 @@ public class OBlockCollision : MonoBehaviour
             {
                 oBlock.canMoveLeft = false;
             }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
+            }
         }
         else if (hit = Physics2D.Raycast(defaultUpRightUp.position, Vector2.left, oneBlockDistance))
         {
             if (hit.transform.tag == "TetrisBlock")
             {
                 oBlock.canMoveLeft = false;
+            }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
             }
         }
         else
@@ -294,12 +371,20 @@ public class OBlockCollision : MonoBehaviour
             {
                 oBlock.canMoveRight = false;
             }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
+            }
         }
         else if (hit = Physics2D.Raycast(defaultDownRightDown.position, Vector2.right, oneBlockDistance))
         {
             if (hit.transform.tag == "TetrisBlock")
             {
                 oBlock.canMoveRight = false;
+            }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
             }
         }
         else
@@ -317,12 +402,20 @@ public class OBlockCollision : MonoBehaviour
             {
                 oBlock.Deactivate();
             }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
+            }
         }
         else if (hit = Physics2D.Raycast(defaultUpLeftLeft.position, Vector2.down, oneBlockDistance))
         {
             if (hit.transform.tag == "TetrisBlock")
             {
                 oBlock.Deactivate();
+            }
+            else if (hit.transform.tag == "KillBox")
+            {
+                Destroy(gameObject);
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TetrisBlockSpawner : MonoBehaviour
 {
@@ -28,6 +29,9 @@ public class TetrisBlockSpawner : MonoBehaviour
     [SerializeField]
     private Transform blockSpawnPoint;
 
+    [SerializeField]
+    private string thisScene = "Level1";
+
     [HideInInspector]
     public bool shouldMakeNew = true;
 
@@ -50,11 +54,18 @@ public class TetrisBlockSpawner : MonoBehaviour
             shouldMakeNew = false;
         }
 
-        if (!activeBlock.isActive)
+        if (!activeBlock.isActive || activeBlock == null)
         {
-            Destroy(activeBlock);
-            activeBlock = null;
-            shouldMakeNew = true;
+            if (activeBlock.hasMoved == false)
+            {
+                TopEntered();
+            }
+            else
+            {
+                Destroy(activeBlock);
+                activeBlock = null;
+                shouldMakeNew = true;
+            }
         }
     }
 
@@ -96,5 +107,10 @@ public class TetrisBlockSpawner : MonoBehaviour
         }
 
         activeBlock = clone.GetComponentInChildren<TetrisMovement>();
+    }
+
+    private void TopEntered()
+    {
+        SceneManager.LoadScene(thisScene);
     }
 }

@@ -25,6 +25,7 @@ public class TetrisMovement : MonoBehaviour
     public bool canFlip = true;
     public bool canMoveLeft = true;
     public bool canMoveRight = true;
+    public bool hasMoved = false;
     public int flipCount = 0;
 
     private bool horizontalButtonPushed = false;
@@ -32,20 +33,8 @@ public class TetrisMovement : MonoBehaviour
     private bool isHitByPlayer = false;
     //private bool isConnected = false;
 
-    private Vector3 rotation;
-    private Vector3 true0 = new Vector3(0f,0f,0f);
-    private Vector3 true90 = new Vector3(0f, 0f, 90f);
-    private Vector3 true180 = new Vector3(0f,0f, 180f);
-    private Vector3 true270 = new Vector3(0f,0f,270f);
-
 	void Start ()
     {
-        /*
-        if(attachedPiece != null)
-        {
-            isConnected = true;
-        }
-        */
         InvokeRepeating("BlockFall", delayTime, movementTime);
 	}
 	
@@ -54,14 +43,7 @@ public class TetrisMovement : MonoBehaviour
         if (isActive)
         {
             CheckInput();
-            //CheckAngles();
             CheckReset();
-            /*
-            if(isConnected)
-            {
-                CheckAttached();
-            }
-            */
         }
 	}
 
@@ -101,55 +83,10 @@ public class TetrisMovement : MonoBehaviour
     {
 
     }
-
-    /*
-    private void CheckAngles()
-    {
-        if (isHitByPlayer)
-        {
-            if ((rotation.z < 88 || rotation.z > 271) && rotation.z != 0)
-            {
-                rotation = true0;
-            }
-            else if(rotation.z < 0)
-            {
-                rotation = true0;
-            }
-            else if ((rotation.z < 178 || rotation.z > 1) && rotation.z != 90)
-            {
-                rotation = true90;
-            }
-            else if ((rotation.z < 268 || rotation.z > 91) && rotation.z != 180)
-            {
-                rotation = true180;
-            }
-            else if ((rotation.z < 358 || rotation.z > 181) && rotation.z != 270)
-            {
-                rotation = true270;
-            }
-            else
-            {
-                rotation = rigidbody2D.transform.eulerAngles;
-            }
-            rigidbody2D.transform.eulerAngles = rotation;
-        }
-    }
-    */
-
-    private void CheckAttached()
-    {
-        /*
-        if(attachedPiece.isHitByGround == true)
-        {
-            Deactivate();
-        }
-        */
-    }
-
     private void BlockFall()
     {
-        //rigidbody2D.MovePosition(rigidbody2D.position - new Vector2(0f, 0.25f));
         gameObject.transform.Translate(0f, -.5f, 0f, Space.World);
+        hasMoved = true;
     }
 
     private void MoveBlockHorizontal()
@@ -159,13 +96,10 @@ public class TetrisMovement : MonoBehaviour
             if (Input.GetAxis("TetrisHorizontal") > 0 && canMoveRight)
             {
                 gameObject.transform.Translate(.5f, 0f, 0f, Space.World);
-                //rigidbody2D.
-                //rigidbody2D.MovePosition(rigidbody2D.position + new Vector2(0.5f, 0f));
             }
             else if (Input.GetAxis("TetrisHorizontal")<0 && canMoveLeft)
             {
                 gameObject.transform.Translate(-.5f, 0f, 0f, Space.World);
-                //rigidbody2D.MovePosition(rigidbody2D.position + new Vector2(-0.5f, 0f));
             }
             horizontalButtonPushed = true;
         }
@@ -178,7 +112,6 @@ public class TetrisMovement : MonoBehaviour
             if(Input.GetAxis("TetrisVertical") < 0)
             {
                 gameObject.transform.Translate(0f, -.5f, 0f, Space.World);
-                //rigidbody2D.MovePosition(rigidbody2D.position + new Vector2(0, -0.5f));
             }
             verticalButtonPushed = true;
         }
@@ -209,8 +142,6 @@ public class TetrisMovement : MonoBehaviour
         {
             if (collision.gameObject.tag == "Player")
             {
-                rotation = rigidbody2D.transform.eulerAngles;
-                rigidbody2D.freezeRotation = true;
                 isHitByPlayer = true;
                 if (PlayerMovement.isOnGround == true)
                 {
@@ -226,8 +157,6 @@ public class TetrisMovement : MonoBehaviour
         {
             if (collision.gameObject.tag == "Player")
             {
-                rigidbody2D.freezeRotation = false;
-                rigidbody2D.transform.eulerAngles = rotation;
                 isHitByPlayer = false;
             }
         }

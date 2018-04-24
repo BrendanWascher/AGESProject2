@@ -32,6 +32,9 @@ public class TetrisBlockSpawner : MonoBehaviour
     [SerializeField]
     private string thisScene = "Level1";
 
+    [SerializeField]
+    private AudioSource audioSource;
+
     [HideInInspector]
     public bool shouldMakeNew = true;
 
@@ -62,6 +65,10 @@ public class TetrisBlockSpawner : MonoBehaviour
             }
             else
             {
+                if (activeBlock != null)
+                {
+                    audioSource.Play();
+                }
                 Destroy(activeBlock);
                 activeBlock = null;
                 shouldMakeNew = true;

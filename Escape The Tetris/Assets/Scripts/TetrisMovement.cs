@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TetrisMovement : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class TetrisMovement : MonoBehaviour
 
     [SerializeField]
     private float movementTime = 0.75f;
+
+    [SerializeField]
+    private string thisScene = "Level1";
 
     [SerializeField]
     private Rigidbody2D rigidbody2D;
@@ -28,6 +32,9 @@ public class TetrisMovement : MonoBehaviour
     public bool hasMoved = false;
     public int flipCount = 0;
 
+    public static bool isTwoPlayer = false;
+
+    private int playerNumber = 1;
     private bool horizontalButtonPushed = false;
     private bool verticalButtonPushed = false;
     private bool isHitByPlayer = false;
@@ -36,6 +43,14 @@ public class TetrisMovement : MonoBehaviour
 	void Start ()
     {
         InvokeRepeating("BlockFall", delayTime, movementTime);
+        if(isTwoPlayer)
+        {
+            playerNumber = 2;
+        }
+        else
+        {
+            playerNumber = 1;
+        }
 	}
 	
 	void Update ()
@@ -49,7 +64,7 @@ public class TetrisMovement : MonoBehaviour
 
     private void CheckInput()
     {
-        if(Input.GetAxis("TetrisHorizontal") != 0)
+        if(Input.GetAxis("TetrisHorizontal"+playerNumber) != 0)
         {
             MoveBlockHorizontal();
         }
@@ -58,7 +73,7 @@ public class TetrisMovement : MonoBehaviour
             horizontalButtonPushed = false;
         }
 
-        if(Input.GetAxis("TetrisVertical") != 0)
+        if(Input.GetAxis("TetrisVertical" + playerNumber) != 0)
         {
             MoveBlockVertical();
         }
@@ -67,7 +82,7 @@ public class TetrisMovement : MonoBehaviour
             verticalButtonPushed = false;
         }
 
-        if(Input.GetButtonDown("TetrisRotate"))
+        if(Input.GetButtonDown("TetrisRotate" + playerNumber))
         {
             if (canFlip)
             {
@@ -83,6 +98,7 @@ public class TetrisMovement : MonoBehaviour
     {
 
     }
+
     private void BlockFall()
     {
         gameObject.transform.Translate(0f, -.5f, 0f, Space.World);
@@ -93,11 +109,11 @@ public class TetrisMovement : MonoBehaviour
     {
         if (!horizontalButtonPushed)
         {
-            if (Input.GetAxis("TetrisHorizontal") > 0 && canMoveRight)
+            if (Input.GetAxis("TetrisHorizontal" + playerNumber) > 0 && canMoveRight)
             {
                 gameObject.transform.Translate(.5f, 0f, 0f, Space.World);
             }
-            else if (Input.GetAxis("TetrisHorizontal")<0 && canMoveLeft)
+            else if (Input.GetAxis("TetrisHorizontal" + playerNumber) <0 && canMoveLeft)
             {
                 gameObject.transform.Translate(-.5f, 0f, 0f, Space.World);
             }
@@ -109,7 +125,7 @@ public class TetrisMovement : MonoBehaviour
     {
         if(!verticalButtonPushed)
         {
-            if(Input.GetAxis("TetrisVertical") < 0)
+            if(Input.GetAxis("TetrisVertical" + playerNumber) < 0)
             {
                 gameObject.transform.Translate(0f, -.5f, 0f, Space.World);
             }
@@ -121,6 +137,13 @@ public class TetrisMovement : MonoBehaviour
     {
 
     }
+
+    /*
+    private void KillPlayer()
+    {
+        SceneManager.LoadScene("Level" + ExitDoor.levelNumber);
+    }
+    */
 
     private void RotateBlock()
     {
@@ -145,7 +168,7 @@ public class TetrisMovement : MonoBehaviour
                 isHitByPlayer = true;
                 if (PlayerMovement.isOnGround == true)
                 {
-
+                    //KillPlayer();
                 }
             }
         }

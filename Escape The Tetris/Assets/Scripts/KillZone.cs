@@ -11,11 +11,28 @@ public class KillZone : MonoBehaviour
     [SerializeField]
     private TetrisBlockSpawner thisSpawner;
 
+    [SerializeField]
+    private AudioSource soundSource;
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.transform.tag == "Player")
         {
-            SceneManager.LoadScene(thisScene);
+            soundSource.Play();
+            StartCoroutine(PlayDeathBeforeLoad());
         }
+    }
+
+    private IEnumerator PlayDeathBeforeLoad()
+    {
+
+        while (soundSource.isPlaying)
+        {
+            yield return null;
+        }
+
+        SceneManager.LoadScene(thisScene);
+        yield return null;
     }
 }

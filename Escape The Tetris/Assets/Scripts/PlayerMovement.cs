@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
-
     Rigidbody2D myRigidBody;
 
     [SerializeField]
@@ -28,9 +28,19 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     AudioSource audioSource;
 
+    [SerializeField]
+    AudioClip deathClip;
+
+    [SerializeField]
+    AudioClip jumpClip;
+
+    [SerializeField]
+    private string thisScene = "Level1";
+
     public static bool isOnGround;
 
     private bool shouldJump = false;
+    private bool hasBeenHit = false;
     private float horizontalInput;
 
     private Vector2 jumpForce;
@@ -53,9 +63,13 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetMovementInput();
-        GetJumpInput();
-        UpDateIsOnGround();
+        if (!hasBeenHit)
+        {
+            GetMovementInput();
+            GetJumpInput();
+            UpDateIsOnGround();
+            CrushCheck();
+        }
     }
 
     private void FixedUpdate()
@@ -69,7 +83,38 @@ public class PlayerMovement : MonoBehaviour
         HandleJump();
     }
 
-    void HorizontalFlip()
+    private IEnumerator PlayerDeath()
+    {
+
+        while (audioSource.isPlaying)
+        {
+            yield return null;
+        }
+
+        SceneManager.LoadScene(thisScene);
+        yield return null;
+    }
+
+    private void CrushCheck()
+    {
+        RaycastHit2D hit;
+        if (hit = Physics2D.Raycast(ceilingDetectPoint.position, Vector2.up, .01f))
+        {
+            if (!hasBeenHit)
+            {
+                if (hit.transform.tag == "TetrisBlock")
+                {
+                    audioSource.clip = deathClip;
+                    audioSource.Play();
+                    gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                    StartCoroutine(PlayerDeath());
+                    hasBeenHit = true;
+                }
+            }
+        }
+    }
+
+    private void HorizontalFlip()
     {
         facingRight = !facingRight;
         Vector3 theScale = transform.localScale;
@@ -101,7 +146,8 @@ public class PlayerMovement : MonoBehaviour
         if (shouldJump)
         {
             myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, jumpStrength);
-            //audioSource.Play();
+            audioSource.clip = jumpClip;
+            audioSource.Play();
             myRigidBody.AddForce(jumpForce);
             isOnGround = false;
             shouldJump = false;

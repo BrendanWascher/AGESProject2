@@ -8,6 +8,9 @@ public class ExitDoor : MonoBehaviour
     [SerializeField]
     private string loadSceneName = "Level1";
 
+    [SerializeField]
+    private AudioSource doorSound;
+
     public static int levelNumber = 1;
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -19,10 +22,23 @@ public class ExitDoor : MonoBehaviour
             if (Input.GetAxis("Vertical") > 0)
             {
                 levelNumber++;
-                SceneManager.LoadScene(loadSceneName);
+                doorSound.Play();
+                StartCoroutine(EnterDoor());
             }
         }
     }
 
-    
+    private IEnumerator EnterDoor()
+    {
+
+        while (doorSound.isPlaying)
+        {
+            yield return null;
+        }
+
+        SceneManager.LoadScene(loadSceneName);
+        yield return null;
+    }
+
+
 }

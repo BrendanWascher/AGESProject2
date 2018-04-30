@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using EZCameraShake;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField]
     float jumpStrength = 10;
+
+    [SerializeField]
+    float resetTime = 2.0f;
 
     [SerializeField]
     Transform groundDetectPoint;
@@ -42,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
     private bool shouldJump = false;
     private bool hasBeenHit = false;
     private float horizontalInput;
+    private float timer = 0f;
 
     private Vector2 jumpForce;
 
@@ -69,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
             GetJumpInput();
             UpDateIsOnGround();
             CrushCheck();
+            CheckReset();
         }
     }
 
@@ -95,6 +101,22 @@ public class PlayerMovement : MonoBehaviour
         yield return null;
     }
 
+    private void CheckReset()
+    {
+        if(Input.GetAxis("Reset") != 0)
+        {
+            timer += Time.deltaTime;
+            if(timer >= resetTime)
+            {
+                KillPlayer();
+            }
+        }
+        else
+        {
+            timer = 0;
+        }
+    }
+
     private void CrushCheck()
     {
         RaycastHit2D hit;
@@ -102,16 +124,22 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!hasBeenHit)
             {
-                if (hit.transform.tag == "TetrisBlock")
+                if (hit.transform.tag == "TetrisBlock" && isOnGround)
                 {
-                    audioSource.clip = deathClip;
-                    audioSource.Play();
-                    gameObject.GetComponent<SpriteRenderer>().enabled = false;
-                    StartCoroutine(PlayerDeath());
-                    hasBeenHit = true;
+                    KillPlayer();
                 }
             }
         }
+    }
+
+    private void KillPlayer()
+    {
+        audioSource.clip = deathClip;
+        audioSource.Play();
+        CameraShaker.Instance.ShakeOnce(4f, 4f, .1f, .1f);
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        StartCoroutine(PlayerDeath());
+        hasBeenHit = true;
     }
 
     private void HorizontalFlip()

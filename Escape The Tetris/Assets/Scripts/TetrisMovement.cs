@@ -37,7 +37,7 @@ public class TetrisMovement : MonoBehaviour
     private int playerNumber = 1;
     private bool horizontalButtonPushed = false;
     private bool verticalButtonPushed = false;
-    private bool isHitByPlayer = false;
+    //private bool isHitByPlayer = false;
     //private bool isConnected = false;
 
 	void Start ()
@@ -158,6 +158,7 @@ public class TetrisMovement : MonoBehaviour
 
     }
 
+    /*
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("Object Hit");
@@ -184,5 +185,6 @@ public class TetrisMovement : MonoBehaviour
             }
         }
     }
+    */
 
 }

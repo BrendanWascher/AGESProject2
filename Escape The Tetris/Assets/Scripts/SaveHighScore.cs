@@ -45,7 +45,7 @@ public class SaveHighScore : MonoBehaviour
     {
         SetInitialScores();
         Load();
-        time = GameTimer.gameTime;
+        time = GameTimer.holdTime;
         name = inputField.text.ToUpper();
         if(name == string.Empty)
         {
@@ -62,10 +62,10 @@ public class SaveHighScore : MonoBehaviour
         FileStream file = File.Create(Application.persistentDataPath
             + "/highscores.dat");
 
-        HighScoreList savingList = new HighScoreList();
-        savingList = thisList;
+        HighScoreData highScoreData = new HighScoreData();
+        highScoreData.highScores = thisList;
 
-        bf.Serialize(file, savingList);
+        bf.Serialize(file, highScoreData);
         file.Close();
     }
 
@@ -76,10 +76,11 @@ public class SaveHighScore : MonoBehaviour
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(Application.persistentDataPath 
                 + "/highscores.dat", FileMode.Open);
-            HighScoreList savedList = (HighScoreList)bf.Deserialize(file);
+            //HighScoreList savedList = (HighScoreList)bf.Deserialize(file);
+            HighScoreData highScoreData = (HighScoreData)bf.Deserialize(file);
             file.Close();
 
-            thisList = savedList;
+            thisList = highScoreData.highScores;
         }
     }
 

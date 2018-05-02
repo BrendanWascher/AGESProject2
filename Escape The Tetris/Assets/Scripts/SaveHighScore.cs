@@ -29,9 +29,8 @@ public class SaveHighScore : MonoBehaviour
     [SerializeField]
     private Text box5;
 
-    //public static SaveHighScore highScore;
-
-    public static HighScoreList thisList = new HighScoreList();
+    public static HighScoreData thisList = new HighScoreData();
+    private const string saveFileName = "highscores.dat";
 
     private static string name;
     private static float time;
@@ -60,10 +59,10 @@ public class SaveHighScore : MonoBehaviour
     {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath
-            + "/highscores.dat");
+            + "/"+saveFileName);
 
         HighScoreData highScoreData = new HighScoreData();
-        highScoreData.highScores = thisList;
+        highScoreData.highScores = thisList.highScores;
 
         bf.Serialize(file, highScoreData);
         file.Close();
@@ -71,16 +70,16 @@ public class SaveHighScore : MonoBehaviour
 
     private void Load()
     {
-        if (File.Exists(Application.persistentDataPath + "/highscores.dat"))
+        if (File.Exists(Application.persistentDataPath + "/"+saveFileName))
         {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(Application.persistentDataPath 
-                + "/highscores.dat", FileMode.Open);
-            //HighScoreList savedList = (HighScoreList)bf.Deserialize(file);
-            HighScoreData highScoreData = (HighScoreData)bf.Deserialize(file);
+                + "/" + saveFileName, FileMode.Open);
+             HighScoreData highScoreData = new HighScoreData();
+            highScoreData = (HighScoreData)bf.Deserialize(file);
             file.Close();
 
-            thisList = highScoreData.highScores;
+            thisList.highScores = highScoreData.highScores;
         }
     }
 
@@ -106,12 +105,40 @@ public class SaveHighScore : MonoBehaviour
     {
         for(int i = 0; i < thisList.highScores.Count; i++ )
         {
-            //Debug.Log(thisList.highScores.Count);
             if (time < thisList.highScores[i].playerTime)
             {
+                if (i + 1 < thisList.highScores.Count)
+                {
+                    if(i + 2 < thisList.highScores.Count)
+                    {
+                        if(i + 3 < thisList.highScores.Count)
+                        {
+                            if( i + 4 < thisList.highScores.Count)
+                            {
+                                thisList.highScores[i +4].playerTime =
+                                    thisList.highScores[i+3].playerTime;
+                                thisList.highScores[i + 4].playerName =
+                                    thisList.highScores[i+3].playerName;
+                            }
+                            thisList.highScores[i + 3].playerTime =
+                                thisList.highScores[i+2].playerTime;
+                            thisList.highScores[i + 3].playerName =
+                                thisList.highScores[i+2].playerName;
+                        }
+                        thisList.highScores[i + 2].playerTime =
+                            thisList.highScores[i+1].playerTime;
+                        thisList.highScores[i + 2].playerName =
+                            thisList.highScores[i+1].playerName;
+                    }
+                    thisList.highScores[i + 1].playerTime =
+                        thisList.highScores[i].playerTime;
+                    thisList.highScores[i + 1].playerName =
+                        thisList.highScores[i].playerName;
+                }
+
                 thisList.highScores[i].playerTime = time;
                 thisList.highScores[i].playerName = name;
-                //Debug.Log("Score Updated");
+               
                 return true;
             }
         }
@@ -121,7 +148,7 @@ public class SaveHighScore : MonoBehaviour
 
     private void SetInitialScores()
     {
-        thisList = new HighScoreList();
+        thisList = new HighScoreData();
         thisList.highScores = new List<PlayerData>();
         for(int i = 0; i < 5; i++)
         {
@@ -132,17 +159,5 @@ public class SaveHighScore : MonoBehaviour
         }
     }
 
-}
-[Serializable]
-public class HighScoreList
-{
-    public List<PlayerData> highScores = new List<PlayerData>();
-}
-
-[Serializable]
-public class PlayerData
-{
-    public string playerName;
-    public float playerTime;
 }
 

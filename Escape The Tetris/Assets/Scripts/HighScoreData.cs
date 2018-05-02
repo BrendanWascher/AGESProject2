@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using System;
 
 [Serializable]
 public class HighScoreData
 {
-    public HighScoreList highScores;
+    public List<PlayerData> highScores;
 }

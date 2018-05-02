@@ -11,11 +11,14 @@ public class ExitDoor : MonoBehaviour
     [SerializeField]
     private AudioSource doorSound;
 
-    public static int levelNumber = 1;
+    public static int levelNumber = 0;
+    public static int totalLevels = 5;
+
+    private bool canEnter = true;
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player" && canEnter)
         {
             //Debug.Log("Player is at door");
 
@@ -23,6 +26,7 @@ public class ExitDoor : MonoBehaviour
             {
                 levelNumber++;
                 doorSound.Play();
+                canEnter = false;
                 StartCoroutine(EnterDoor());
             }
         }

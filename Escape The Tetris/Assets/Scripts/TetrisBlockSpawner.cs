@@ -52,7 +52,7 @@ public class TetrisBlockSpawner : MonoBehaviour
     {
         if(shouldMakeNew)
         {
-            randomNumber = Random.Range(0, 6);
+            randomNumber = Random.Range(0, 7);
             MakeBlock(randomNumber);
             shouldMakeNew = false;
         }

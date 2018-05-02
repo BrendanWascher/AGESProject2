@@ -287,6 +287,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114518203738463942, guid: fb29cfccbb6a7c14d99efbbb69502634,
+        type: 2}
+      propertyPath: loadSceneName
+      value: HighScoreScreen
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fb29cfccbb6a7c14d99efbbb69502634, type: 2}
   m_IsPrefabParent: 0
@@ -826,7 +831,7 @@ Prefab:
     - target: {fileID: 114205763108580070, guid: 31e9000c39643224b84d81142698c002,
         type: 2}
       propertyPath: thisScene
-      value: Level4
+      value: Level5
       objectReference: {fileID: 0}
     - target: {fileID: 114251543443560414, guid: 31e9000c39643224b84d81142698c002,
         type: 2}

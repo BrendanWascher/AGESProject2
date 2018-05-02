@@ -14,7 +14,7 @@ public class MusicLooper : MonoBehaviour
         }
     }
 
-    void Awake()
+    private void Awake()
     {
         if (instance != null && instance != this)
         {
@@ -29,4 +29,18 @@ public class MusicLooper : MonoBehaviour
 
         DontDestroyOnLoad(this.gameObject);
     }
+
+    private void FixedUpdate()
+    {
+        CheckSelfDestruct();
+    }
+
+    private void CheckSelfDestruct()
+    {
+        if (ExitDoor.levelNumber > ExitDoor.totalLevels)
+        {
+            Destroy(gameObject);
+        }
+    }
+
 }

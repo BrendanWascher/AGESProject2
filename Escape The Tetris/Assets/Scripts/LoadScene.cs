@@ -9,4 +9,15 @@ public class LoadScene : MonoBehaviour
     {
         SceneManager.LoadScene(thisScene);
     }
+
+    public void NextLevel()
+    {
+        ExitDoor.levelNumber++;
+    }
+
+    public void ResetLevel()
+    {
+        ExitDoor.levelNumber = 0;
+        GameTimer.gameTime = 0.0f;
+    }
 }
